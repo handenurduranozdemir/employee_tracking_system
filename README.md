@@ -1,0 +1,1 @@
+This project, Employee Tracking System, was developed as a Case Study for 2N Tech. It demonstrates the functionalities of managing employee attendance, leave requests, and overall tracking of employee-related data, tailored for organizational use.
