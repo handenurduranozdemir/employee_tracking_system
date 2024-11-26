@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Kullanıcı Detayları{% endblock %}
+
+{% block content %}
+<h2>{{ user.username }} - Detaylar</h2>
+
+<h3>Özlü Bilgiler</h3>
+<ul>
+    <li>Ad Soyad: {{ user.first_name }} {{ user.last_name }}</li>
+    <li>E-posta: {{ user.email }}</li>
+    <li>Kalan İzin: {{ profile.remaining_leaves }} gün</li>
+</ul>
+
+<h3>Geç Kalma Verileri</h3>
+<p>Toplam Geç Kalma Süresi: {{ total_late_minutes }} dakika</p>
+
+<h3>Aylık Çalışma Raporu</h3>
+<p>Toplam Çalışma Saati: {{ monthly_working_hours|default:"0:00:00" }}</p>
+
+<h3>Giriş ve Çıkış Saatleri</h3>
+<table border="2">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Giriş Saati</th>
+            <th>Çıkış Saati</th>
+            <th>Geç Kalma (dk)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attendance in attendances %}
+        <tr>
+            <td>{{ attendance.date }}</td>
+            <td>{{ attendance.check_in }}</td>
+            <td>{{ attendance.check_out }}</td>
+            <td>{{ attendance.calculate_lateness }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Hiç kayıt bulunamadı.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

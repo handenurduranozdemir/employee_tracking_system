@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Aylık Çalışma Raporu{% endblock %}
+
+{% block content %}
+<h2>Aylık Çalışma Raporu</h2>
+
+<table border="1">
+    <tr>
+        <th>Ay</th>
+        <th>Toplam Çalışma Saatleri</th>
+    </tr>
+    {% for report in reports %}
+    <tr>
+        <td>{{ report.month|date:"F Y" }}</td>
+        <td>{{ report.total_working_hours }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="2">Hiç rapor bulunamadı.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

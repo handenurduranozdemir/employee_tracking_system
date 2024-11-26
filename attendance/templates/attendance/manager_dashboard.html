@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+</head>
+<body>
+    <h2>Yetkili Dashboard</h2>
+    <a href="{% url 'define_leave' %}" class="btn btn-primary">Yeni İzin Tanımla</a>
+    <a href="{% url 'manage_leave_requests' %}">
+        İzin Talepleri 
+        {% with leave_requests|length as count %}
+            {% if count > 0 %}({{ count }}){% endif %}
+        {% endwith %}
+    </a>
+    <br>
+
+    <h2>Yönetim Paneli</h2>
+    <ul>
+        <li><a href="{% url 'employee_list' %}">Çalışan Bilgileri</a></li>
+    </ul>
+
+
+
+    <h1>Manager Dashboard</h1>
+    <h2>Attendance Records</h2>
+    <table border="3">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Late By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attendance in attendances %}
+            <tr>
+                <td>{{ attendance.employee.username }}</td>
+                <td>{{ attendance.date }}</td>
+                <td>{{ attendance.check_in|default:"-" }}</td>
+                <td>{{ attendance.check_out|default:"-" }}</td>
+                <td>
+                    {% if attendance.late_by.total_seconds > 0 %}
+                        {{ attendance.late_by }}
+                    {% else %}
+                        On Time
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

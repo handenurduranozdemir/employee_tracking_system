@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}İzin Talepleri{% endblock %}
+
+{% block content %}
+<h2>İzin Talepleri</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Çalışan</th>
+            <th>Başlangıç Tarihi</th>
+            <th>Bitiş Tarihi</th>
+            <th>Neden</th>
+            <th>Durum</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in leave_requests %}
+        <tr>
+            <td>{{ request.employee.username }}</td>
+            <td>{{ request.start_date }}</td>
+            <td>{{ request.end_date }}</td>
+            <td>{{ request.reason }}</td>
+            <td>{{ request.get_status_display }}</td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="leave_id" value="{{ request.id }}">
+                    <button type="submit" name="action" value="approve">Onayla</button>
+                    <button type="submit" name="action" value="reject">Reddet</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Bekleyen izin talebi bulunamadı.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'manager_dashboard' %}">Geri</a>
+{% endblock %}
